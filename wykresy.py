@@ -10,14 +10,13 @@ BTC = DATA_DIR + "BTC-Daily.csv"
 
 
 
-def wykres(yearFrom,fileName,InstrumentName):
+def wykres(time,time_offset,fileName,InstrumentName):
     DATA = pd.read_csv(fileName)
 
     DATA["Date"] = pd.to_datetime(DATA["Date"])
     DATA["Value"] = pd.to_numeric(DATA["Value"]) 
 
-    DATA = DATA.iloc[364*yearFrom:364*(yearFrom+3)].reset_index(drop=True)
-
+    DATA = DATA.iloc[time_offset:time_offset+time].reset_index(drop=True)
 
     fig, ax1 = plt.subplots(1, 1, sharex=True, figsize=(12, 6))  # Trzy wykresy
 
@@ -28,6 +27,7 @@ def wykres(yearFrom,fileName,InstrumentName):
     ax1.legend()
     ax1.grid(True)
 
+    plt.show()
     plt.savefig("wykres " + InstrumentName + " from " + str(yearFrom) + ".pdf",format="pdf")
     plt.close()
 
@@ -37,6 +37,6 @@ def wykres(yearFrom,fileName,InstrumentName):
         
 
 if __name__ == "__main__":
-    wykres(0,BTC,"BTC")
-    wykres(0,SP500,"S&P 500")
-    wykres(3,SP500,"S&P 500")
+    wykres(365*3,0,BTC,"BTC")
+    wykres(365*3,0,SP500,"S&P 500")
+    wykres(365*3,365*3,SP500,"S&P 500")

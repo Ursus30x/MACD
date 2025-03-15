@@ -6,7 +6,7 @@ import pandas as pd
 
 SP500 = "sp500_index.csv"
 BTC = "BTC-Daily.csv"
-DATA_PATH_CSV = 'data/' + SP500
+DATA_PATH_CSV = 'data/'
 
 
 
@@ -85,9 +85,60 @@ def simulateWallet(Dates: list, Values: list, Buys: list, Sells: list):
 
     return walletSim
 
-            
+def createPlotMACD(DATA, DATA_Title, macd, signal):
+    fig, ax = plt.subplots(1, 1, sharex=True, figsize=(12, 12))  # Trzy wykresy
 
-def createPlots(DATA, macd, signal, buy_intersections, sell_intersections, walletSim):
+    # Wykres MACD / SIGNAL
+    ax.plot(DATA["Date"], macd, label='MACD', color='r')  
+    ax.plot(DATA["Date"], signal, label='SIGNAL', color='b')  
+    ax.set_ylabel('MACD / SIGNAL')
+    ax.set_title(DATA_Title + ' MACD Indicator')
+    ax.legend()
+    ax.grid(True)
+
+    plt.savefig(DATA_Title + " from "  + ".pdf",format="pdf")
+
+def createPlotBUYSELL(DATA, DATA_Title, buy_intersections, sell_intersections,):
+    fig, ax = plt.subplots(1, 1, sharex=True, figsize=(12, 12))  # Trzy wykresy
+
+    buy_dates = [x[0] for x in buy_intersections] 
+    buy_values = [x[1] for x in buy_intersections] 
+
+    sell_dates = [x[0] for x in sell_intersections]  
+    sell_values = [x[1] for x in sell_intersections] 
+
+    # Wykres wartości 
+    ax.plot(DATA["Date"], DATA["Value"], label=DATA_Title + ' Value', color='b')
+    ax.scatter(buy_dates, buy_values, label='BUY', color='g', zorder=5, marker='s')
+    ax.scatter(sell_dates, sell_values, label='SELL', color='r', zorder=5, marker='s')
+    ax.set_xlabel('Date')
+    ax.set_ylabel('Value [$]')
+    ax.set_title(DATA_Title + 'BUY & SELL Points')
+    ax.legend()
+    ax.grid(True)
+
+def createPlotPortfolioSim(DATA, DATA_Title, walletSim):
+    # Wykres stanu konta
+    fig, ax = plt.subplots(1, 1, sharex=True, figsize=(12, 12))  # Trzy wykresy
+
+    wallet_dates = [x[0] for x in walletSim]  
+    walletSim_total = [ (cash + stock_worth) for date, cash, stock_worth in walletSim]
+
+    Values = DATA["Value"].copy()
+    Values *= 1000
+
+    ax.plot(wallet_dates, walletSim_total, label='Portfolio value with MACD Trading', color='r')  
+    ax.plot(DATA["Date"], Values, label='Portfolio value with buying shares only once', color='b')
+    ax.set_xlabel('Date')
+    ax.set_ylabel('Value [$]')
+    ax.set_title(DATA_Title + ' Portfolio Simulator ')
+    formatter = ticker.FuncFormatter(lambda x, _: f"{int(x/1_000_000)} mln")
+    ax.yaxis.set_major_formatter(formatter)
+    ax.legend()
+    ax.grid(True)
+
+
+def createCombinedPlots(DATA, DATA_Title, macd, signal, buy_intersections, sell_intersections, walletSim):
     buy_dates = [x[0] for x in buy_intersections] 
     buy_values = [x[1] for x in buy_intersections] 
 
@@ -95,10 +146,7 @@ def createPlots(DATA, macd, signal, buy_intersections, sell_intersections, walle
     sell_values = [x[1] for x in sell_intersections] 
 
     wallet_dates = [x[0] for x in walletSim]  
-    cash_values = [x[1] for x in walletSim] 
-    stock_values = [x[2] for x in walletSim]  
     walletSim_total = [ (cash + stock_worth) for date, cash, stock_worth in walletSim]
-
 
     # Obliczanie procentowego wzrostu
     zarobione_procent = (walletSim_total[-1] / walletSim_total[0] - 1) * 100
@@ -107,9 +155,6 @@ def createPlots(DATA, macd, signal, buy_intersections, sell_intersections, walle
     # Drukowanie wyników w formacie procentowym
     print(f"Zarobione z macd: {zarobione_procent:.2f}% | Gdyby wrzucić bez MACD w 2014: {sytuacja_bez_macd_procent:.2f}%")
 
-
-    #print("Zarobione: " + str(walletSim_total[-1]/walletSim_total[0] - 1) + " | Gdyby wrzucic bez macd w 2014: " + str(DATA["Value"].iloc[-1]/DATA["Value"][0] - 1))
-
     # Trzy wykresy w jednej fig. (2 wiersze, 2 kolumny, trzeci wykres na dole)
     fig, (ax1, ax2, ax3) = plt.subplots(3, 1, sharex=True, figsize=(12, 12))  # Trzy wykresy
 
@@ -117,12 +162,12 @@ def createPlots(DATA, macd, signal, buy_intersections, sell_intersections, walle
     ax1.plot(DATA["Date"], macd, label='MACD', color='r')  
     ax1.plot(DATA["Date"], signal, label='SIGNAL', color='b')  
     ax1.set_ylabel('MACD / SIGNAL')
-    ax1.set_title('S&P 500 MACD Indicator')
+    ax1.set_title(DATA_Title + ' Combined Plots')
     ax1.legend()
     ax1.grid(True)
 
-    # Wykres wartości S&P 500
-    ax2.plot(DATA["Date"], DATA["Value"], label='S&P500 Value', color='b')
+    # Wykres wartości 
+    ax2.plot(DATA["Date"], DATA["Value"], label=DATA_Title + ' Value', color='b')
     ax2.scatter(buy_dates, buy_values, label='BUY', color='g', zorder=5, marker='s')
     ax2.scatter(sell_dates, sell_values, label='SELL', color='r', zorder=5, marker='s')
     ax2.set_xlabel('Date')
@@ -132,10 +177,11 @@ def createPlots(DATA, macd, signal, buy_intersections, sell_intersections, walle
 
     # Wykres stanu konta
 
-    DATA["Value"] *= 1000
+    Values = DATA["Value"].copy()
+    Values *= 1000
 
     ax3.plot(wallet_dates, walletSim_total, label='Portfolio value with MACD Trading', color='r')  
-    ax3.plot(DATA["Date"], DATA["Value"], label='Portfolio value with buying shares only once', color='b')
+    ax3.plot(DATA["Date"], Values, label='Portfolio value with buying shares only once', color='b')
     ax3.set_xlabel('Date')
     ax3.set_ylabel('Value [$]')
     formatter = ticker.FuncFormatter(lambda x, _: f"{int(x/1_000_000)} mln")
@@ -144,33 +190,41 @@ def createPlots(DATA, macd, signal, buy_intersections, sell_intersections, walle
     ax3.grid(True)
 
     plt.tight_layout()  # Lepsze rozmieszczenie wykresów
-    plt.show()
-
     
 
-
-
-def main():
-    DATA = pd.read_csv(DATA_PATH_CSV)
+def createAllPlots(DATA, DATA_Title, macd, signal, buy_intersections, sell_intersections, walletSim):
+    createPlotMACD(DATA,DATA_Title,macd,signal)
+    createPlotBUYSELL(DATA,DATA_Title,buy_intersections,sell_intersections)
+    createPlotPortfolioSim(DATA,DATA_Title,walletSim)
+    createCombinedPlots(DATA, DATA_Title, macd, signal, buy_intersections, sell_intersections, walletSim)
+    
+def generate_plot(Data_path, Data_title, time, time_offset):
+    DATA = pd.read_csv(Data_path)
 
     DATA["Date"] = pd.to_datetime(DATA["Date"])
     DATA["Value"] = pd.to_numeric(DATA["Value"]) 
 
-    yearFrom = 0
-
-    #DATA = DATA[0:364*2]
-
-    DATA = DATA.iloc[364*yearFrom:364*(yearFrom+3)].reset_index(drop=True)
+    DATA = DATA.iloc[time_offset:time+time_offset].reset_index(drop=True)
 
     macd = MACD(DATA["Value"])
     signal = SIGNAL(macd)
     buy_intersections,sell_intersections = calculateIntersections(DATA['Date'],macd,signal,DATA['Value'])
     walletSim = simulateWallet(DATA['Date'],DATA['Value'],buy_intersections,sell_intersections)
 
-   
+    createAllPlots(DATA,Data_title,macd,signal,buy_intersections,sell_intersections,walletSim)
+
+    
 
 
-    createPlots(DATA,macd,signal,buy_intersections,sell_intersections,walletSim)
+
+def main():
+    generate_plot(DATA_PATH_CSV+SP500,"S&P 500",3*365,0)
+    generate_plot(DATA_PATH_CSV+SP500,"S&P 500",3*365,3*365)
+    generate_plot(DATA_PATH_CSV+BTC,"BTC",3*365,0)
+    
+    plt.show()
+
+
 
 
 
