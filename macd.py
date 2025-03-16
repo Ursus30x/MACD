@@ -85,8 +85,21 @@ def simulateWallet(Dates: list, Values: list, Buys: list, Sells: list):
 
     return walletSim
 
+def createPlotValue(DATA, DATA_Title):
+    fig, ax = plt.subplots(1, 1, sharex=True, figsize=(12, 6))  # Trzy wykresy
+
+    # Wykres wartości 
+    ax.plot(DATA["Date"], DATA["Value"], label=DATA_Title + ' Value', color='b')
+    ax.set_xlabel('Date')
+    ax.set_ylabel('Value [$]')
+    ax.set_title(DATA_Title + ' Value')
+    ax.legend()
+    ax.grid(True)
+
+    plt.savefig(DATA_Title + " from " + str(DATA["Date"][0].strftime("%Y-%m-%d")) + " VALUE" + ".pdf",format="pdf")
+
 def createPlotMACD(DATA, DATA_Title, macd, signal):
-    fig, ax = plt.subplots(1, 1, sharex=True, figsize=(12, 12))  # Trzy wykresy
+    fig, ax = plt.subplots(1, 1, sharex=True, figsize=(12, 6))  # Trzy wykresy
 
     # Wykres MACD / SIGNAL
     ax.plot(DATA["Date"], macd, label='MACD', color='r')  
@@ -96,10 +109,10 @@ def createPlotMACD(DATA, DATA_Title, macd, signal):
     ax.legend()
     ax.grid(True)
 
-    plt.savefig(DATA_Title + " from "  + ".pdf",format="pdf")
+    plt.savefig(DATA_Title + " from " + str(DATA["Date"][0].strftime("%Y-%m-%d")) + " MACD" + ".pdf",format="pdf")
 
 def createPlotBUYSELL(DATA, DATA_Title, buy_intersections, sell_intersections,):
-    fig, ax = plt.subplots(1, 1, sharex=True, figsize=(12, 12))  # Trzy wykresy
+    fig, ax = plt.subplots(1, 1, sharex=True, figsize=(12, 6))  # Trzy wykresy
 
     buy_dates = [x[0] for x in buy_intersections] 
     buy_values = [x[1] for x in buy_intersections] 
@@ -117,9 +130,12 @@ def createPlotBUYSELL(DATA, DATA_Title, buy_intersections, sell_intersections,):
     ax.legend()
     ax.grid(True)
 
+    plt.savefig(DATA_Title + " from " + str(DATA["Date"][0].strftime("%Y-%m-%d")) + " BUYSELL" + ".pdf",format="pdf")
+
+
 def createPlotPortfolioSim(DATA, DATA_Title, walletSim):
     # Wykres stanu konta
-    fig, ax = plt.subplots(1, 1, sharex=True, figsize=(12, 12))  # Trzy wykresy
+    fig, ax = plt.subplots(1, 1, sharex=True, figsize=(12, 6))  # Trzy wykresy
 
     wallet_dates = [x[0] for x in walletSim]  
     walletSim_total = [ (cash + stock_worth) for date, cash, stock_worth in walletSim]
@@ -136,6 +152,9 @@ def createPlotPortfolioSim(DATA, DATA_Title, walletSim):
     ax.yaxis.set_major_formatter(formatter)
     ax.legend()
     ax.grid(True)
+
+    plt.savefig(DATA_Title + " from " + str(DATA["Date"][0].strftime("%Y-%m-%d")) + " SIMULATION" + ".pdf",format="pdf")
+
 
 
 def createCombinedPlots(DATA, DATA_Title, macd, signal, buy_intersections, sell_intersections, walletSim):
@@ -156,7 +175,7 @@ def createCombinedPlots(DATA, DATA_Title, macd, signal, buy_intersections, sell_
     print(f"Zarobione z macd: {zarobione_procent:.2f}% | Gdyby wrzucić bez MACD w 2014: {sytuacja_bez_macd_procent:.2f}%")
 
     # Trzy wykresy w jednej fig. (2 wiersze, 2 kolumny, trzeci wykres na dole)
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, sharex=True, figsize=(12, 12))  # Trzy wykresy
+    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, sharex=True, figsize=(12, 10))  # Trzy wykresy
 
     # Wykres MACD / SIGNAL
     ax1.plot(DATA["Date"], macd, label='MACD', color='r')  
@@ -190,9 +209,12 @@ def createCombinedPlots(DATA, DATA_Title, macd, signal, buy_intersections, sell_
     ax3.grid(True)
 
     plt.tight_layout()  # Lepsze rozmieszczenie wykresów
+
+    plt.savefig(DATA_Title + " from " + str(DATA["Date"][0].strftime("%Y-%m-%d")) + " COMBINED" + ".pdf",format="pdf")
     
 
 def createAllPlots(DATA, DATA_Title, macd, signal, buy_intersections, sell_intersections, walletSim):
+    createPlotValue(DATA, DATA_Title)
     createPlotMACD(DATA,DATA_Title,macd,signal)
     createPlotBUYSELL(DATA,DATA_Title,buy_intersections,sell_intersections)
     createPlotPortfolioSim(DATA,DATA_Title,walletSim)
