@@ -49,9 +49,9 @@ def calculateIntersections(xAxis: list, figure1: list, figure2: list, value: lis
     
     for i in range(0,len(figure1)-1):
         if checkIfIntersects(figure1,figure2,i):
-            sell_intersections.append((pd.to_datetime(xAxis[i+1]),value[i+1]))
+            sell_intersections.append((pd.to_datetime(xAxis[i+1]),value[i+1],"SELL"))
         elif checkIfIntersects(figure2,figure1,i):
-            buy_intersections.append((pd.to_datetime(xAxis[i+1]),value[i+1]))
+            buy_intersections.append((pd.to_datetime(xAxis[i+1]),value[i+1],"BUY"))
 
     return buy_intersections,sell_intersections
 
@@ -83,16 +83,25 @@ def simulateWallet(Dates: list, Values: list, Buys: list, Sells: list):
 
     return walletSim
 
-def transactionGains(Buys: list, Sells: list) -> list:
+def transactionGains(Buys: list, Sells: list, StartVal) -> list:
     
     gains = []
-        
+
+
     BuysAndSells = Buys + Sells
-    lastTransactionValue = BuysAndSells[0][1]
+    lastTransactionValue = StartVal
     
         
     for transaction in BuysAndSells:
-        gain = lastTransactionValue/transaction[1]
+
+        if transaction[2] == "SELL":
+            gain = transaction[1]/lastTransactionValue
+        elif transaction[2] == "BUY":
+            gain = lastTransactionValue/transaction[1]
+        else:
+            gain = 0
+
+        
         lastTransactionValue = transaction[1]
         gains.append((transaction[0],gain))
     
@@ -262,7 +271,7 @@ def generate_plot(Data_path, Data_title, time, time_offset):
     signal = SIGNAL(macd)
     buy_intersections,sell_intersections = calculateIntersections(DATA['Date'],macd,signal,DATA['Value'])
     walletSim = simulateWallet(DATA['Date'],DATA['Value'],buy_intersections,sell_intersections)
-    gains = transactionGains(buy_intersections,sell_intersections)
+    gains = transactionGains(buy_intersections,sell_intersections,DATA["Value"][0])
     createPlotGains(DATA,Data_title,gains)
     createAllPlots(DATA,Data_title,macd,signal,buy_intersections,sell_intersections,walletSim)
 
@@ -271,13 +280,12 @@ def generate_plot(Data_path, Data_title, time, time_offset):
 
 
 def main():
-    #generate_plot(DATA_PATH_CSV+SP500,"S&P 500",3*365,0)
+    #generate_plot(DATA_PATH_CSV+SP500,"S&P 500",3*365,7)
     #generate_plot(DATA_PATH_CSV+SP500,"S&P 500",3*365,3*365)
-    #generate_plot(DATA_PATH_CSV+BTC,"BTC",3*365,0)
-    #generate_plot(DATA_PATH_CSV+BTC,"BTC SHORT PERIOD",120,100)
+    #generate_plot(DATA_PATH_CSV+BTC,"BTC",3*365,34)
+    generate_plot(DATA_PATH_CSV+BTC,"BTC SHORT PERIOD",120,100)
     generate_plot(DATA_PATH_CSV+SP500,"S&P 500 SHORT PERIOD",90,100)
-    
-    plt.show()
+   
 
 
 

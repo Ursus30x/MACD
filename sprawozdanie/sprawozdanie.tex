@@ -64,68 +64,28 @@ Który został wyprowadzony z:
     {1 + (1 - \alpha) + (1 - \alpha)^2 + \dots + (1 - \alpha)^i}
 \end{equation}
 
-\section{Dane}
-
-\section{Implementacja wskaźnika MACD}
-
-Wskaźnik MACD został zaimplementowany w następujący sposób:
-\begin{equation}
-    MACD = EMA_{12} - EMA_{26}
-\end{equation}
-\begin{equation}
-    SIGNAL = EMA_9(MACD)
-\end{equation}
-
-gdzie $EMA_N$ oznacza wykładniczą średnią kroczącą (ang. \textit{Exponential Moving Average}) obliczaną według wzoru:
-\begin{equation}
-    EMA_N^{today} = (p \cdot \alpha) + EMA_N^{yesterday} \cdot (1 - \alpha)
-\end{equation}
-
-gdzie:
-\begin{itemize}
-    \item $p$ – cena zamknięcia w danym przedziale czasowym,
-    \item $\alpha$ – współczynnik wygładzający, określony jako:
-    \begin{equation}
-        \alpha = \frac{2}{N+1}
-    \end{equation}
-    \item $N$ – liczba okresów.
-\end{itemize}
-
-Który został wyprowadzony z:
-\begin{equation}
-    EMA_N(i) = \frac{x_i + (1 - \alpha)x_{i-1} + (1 - \alpha)^2 x_{i-2} + \dots + (1 - \alpha)^i x_0}
-    {1 + (1 - \alpha) + (1 - \alpha)^2 + \dots + (1 - \alpha)^i}
-\end{equation}
-
 \section{Dane do analizy}
 
 Do analizy wykorzystujemy notowania dwóch instrumentów finansowych:
 
 \subsection{Indeks giełdowy S\&P 500}
-Analizujemy indeks S\&P 500 w okresie od końca 2014 do końca 2024. Jest to indeks, na którym bazuje wiele funduszy ETF, co umożliwia nam ogólną analizę skuteczności działania wskaźnika MACD. 
+Analizujemy indeks S\&P 500 w okresie od końca 2015 do końca 2024. Jest to indeks, na którym bazuje wiele funduszy ETF, co umożliwia nam ogólną analizę skuteczności działania wskaźnika MACD. 
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=\linewidth]{wykres S&P 500 from 0.pdf}
-    \caption{Wykres indeksu S\&P 500 od roku 2014 do 2017}
-    \label{fig:sp500_2014_2017}
-\end{figure}
-
-\vspace{-1cm}  % Zmniejszamy przestrzeń, żeby tekst był bliżej wykresu
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=\linewidth]{wykres S&P 500 from 3.pdf}
+    \includegraphics[width=\linewidth]{S&P 500 from 2015-01-02 VALUE.pdf}
+    \caption{Wykres indeksu S\&P 500 od roku 2015 do 2019}
+    \includegraphics[width=\linewidth]{S&P 500 from 2019-05-01 VALUE.pdf}
     \caption{Wykres indeksu S\&P 500 od roku 2019 do 2023}
-    \label{fig:sp500_2019_2023}
+    \label{fig:sp500}
 \end{figure}
-
+\vspace{10cm}  
 \subsection{Kryptowaluta Bitcoin}
 Analizujemy notowania Bitcoina w okresie od końca 2014 do 2022. Ten instrument pozwala na przetestowanie wskaźnika MACD w bardzo zmiennych warunkach rynkowych.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=\linewidth+0.4]{wykres BTC from 0.pdf}
+    \includegraphics[width=\linewidth+0.4]{BTC from 2015-01-01 VALUE.pdf}
     \caption{Wykres wartości BTC od roku 2014 do 2017}
     \label{fig:btc_2014_2017}
 \end{figure}
@@ -135,8 +95,9 @@ Analizujemy notowania Bitcoina w okresie od końca 2014 do 2022. Ten instrument 
 \subsection{S\&P 500 2014-2019}
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=\linewidth]{MACD S&P500 from 0.pdf}
-    \caption{Wykresy wartosci oraz wskaznika MACD dla S\&P 500 2014-2019}
+    \includegraphics[width=\linewidth]{S&P 500 from 2015-01-02 BUYSELL.pdf}
+    \includegraphics[width=\linewidth]{S&P 500 from 2015-01-02 MACD.pdf}
+    \caption{Wykresy wartosci oraz wskaznika MACD dla S\&P 500 2015-2019}
     \label{fig:sp500_2014_2017}
 \end{figure}
 
@@ -144,12 +105,12 @@ Analizujemy notowania Bitcoina w okresie od końca 2014 do 2022. Ten instrument 
 \item Sygnały \textbf{BUY} występowały na początku wzrostowych trendów, co pozwalało na korzystne wejście na rynek. Sygnały \textbf{SELL} zazwyczaj skutecznie wskazywały na momenty osłabienia trendu wzrostowego lub rozpoczęcia spadków.
 \item Przecięcie poziomu zerowego w górę potwierdzało wzrostową dynamikę rynku, a spadek poniżej tego poziomu zapowiadał tendencję spadkową.
 \end{itemize}
-
-\vspace{5cm}  % Zmniejszamy przestrzeń, żeby tekst był bliżej wykresu
+\vspace{10cm}  
 \subsection{S\&P 500 2019-2023}
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=\linewidth]{MACD S&P500 from 3.pdf}
+    \includegraphics[width=\linewidth]{S&P 500 from 2019-05-01 BUYSELL.pdf}
+    \includegraphics[width=\linewidth]{S&P 500 from 2019-05-01 MACD.pdf}
     \caption{Wykresy wartosci oraz wskaznika MACD dla S\&P 500 2019-2023} 
     \label{fig:sp500_2019_2023}
 \end{figure}
@@ -160,23 +121,110 @@ Analizujemy notowania Bitcoina w okresie od końca 2014 do 2022. Ten instrument 
 \end{itemize}
 
 \vspace{5cm}  % Zmniejszamy przestrzeń, żeby tekst był bliżej wykresu
-\subsection{BTC 2014-2019}
+\subsection{BTC 2015-2019}
+
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=\linewidth]{MACD BTC from 0.pdf}
-    \caption{Wykresy wartosci oraz wskaznika MACD dla BTC 2014-2019}
+    \includegraphics[width=\linewidth]{BTC from 2015-01-01 BUYSELL.pdf}
+    \includegraphics[width=\linewidth]{BTC from 2015-01-01 MACD.pdf}
+    \caption{Wykresy wartosci oraz wskaznika MACD dla BTC 2015-2019}
     \label{fig:BTC_2014_2017}
 \end{figure}
 
-\subsection*{Bitcoin (2014-2019)}
+
 \begin{itemize}
 \item Sygnały \textbf{BUY} i \textbf{SELL} były mniej przewidywalne niż w przypadku indeksu S\&P 500, co wynika z większej zmienności rynku kryptowalut.
 \item W okresach dynamicznych wzrostów MACD generował liczne sygnały, co wymagało dodatkowej analizy w celu uniknięcia fałszywych alarmów.
 \end{itemize}
 
 
-\vspace{5cm}  % Zmniejszamy przestrzeń, żeby tekst był bliżej wykresu
-\subsection*{Podsumowanie}
+\vspace{10cm}  % Zmniejszamy przestrzeń, żeby tekst był bliżej wykresu
+\subsection{Podsumowanie}
 Wskaźnik MACD wykazał się wysoką skutecznością w identyfikacji trendów na rynku S\&P 500, chociaz przy duzych zmianach na rynku sprawial powodowal wiecej falszy, a co gorsza czesto powodujacych duze straty. Natomiast w przypadku Bitcoina, z powodu jego wysokiej zmiennosci (ang. volitlity) mozemy zauwazyc ze  generował więcej fałszywych sygnałów, niz nawet w S\&P 500 .Połączenie MACD z dodatkowymi wskaźnikami technicznymi oraz analizą fundamentalną może znacząco zwiększyć trafność prognoz inwestycyjnych.
+ 
 
+\section{MACD na mniejszych zakresach}
+\subsection{S\&P 500 – 8 transakcji}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{S&P 500 SHORT PERIOD from 2015-05-18 BUYSELL.pdf}
+    \includegraphics[width=\linewidth]{S&P 500 SHORT PERIOD from 2015-05-18 GAINS.pdf}
+    \caption{Wykresy zyskow MACD S\&P 500 2015-2019}
+    \label{fig:BTC_2014_2017}
+\end{figure}
+
+\begin{itemize}
+    \item Analiza krótkoterminowych sygnałów MACD dla indeksu S\&P 500 wskazuje, że strategia oparta na 8 transakcjach przynosiła niewielkie, ale stabilne zyski.
+    \item Wykresy pokazują, że momenty kupna i sprzedaży były dobrze dopasowane do lokalnych szczytów i dołków rynku.
+    \item Zyski były relatywnie niskie, co sugeruje, że MACD w krótkim terminie może nie być wystarczająco skuteczne samodzielnie.
+\end{itemize}
+    
+
+\subsection{BTC – 8 transakcji}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{BTC SHORT PERIOD from 2015-03-08 BUYSELL.pdf}
+    \includegraphics[width=\linewidth]{BTC SHORT PERIOD from 2015-03-08 GAINS.pdf}
+    \caption{Wykresy zyskow MACD  BTC 2015-2019}
+    \label{fig:BTC_2014_2017}
+\end{figure}
+
+\begin{itemize}
+    \item W przypadku Bitcoina MACD generował więcej fałszywych sygnałów niż dla S\&P 500.
+    \item Zmienność rynku kryptowalut powodowała, że momenty kupna i sprzedaży były mniej przewidywalne.
+    \item Strategia 8 transakcji nie przyniosła stabilnych zysków, a w niektórych przypadkach generowała straty.
+\end{itemize}
+
+\vspace{10cm} 
+\section{Symulacja portfela z MACD}
+
+\subsection{Symulacja S\&P 500 2014-2019}
+\begin{figure}[h!]
+    \centering
+
+    \includegraphics[width=\linewidth]{S&P 500 from 2015-01-02 COMBINED.pdf}
+    \caption{Symulacja z wykresami dla S\&P 2015-2019}
+    \label{fig:BTC_2014_2017}
+\end{figure}
+Wykresy wskazują, że strategia MACD pozwoliła osiągnąć lepsze wyniki niż jednorazowe kupno i trzymanie aktywów.
+Wartość portfela z transakcjami opartymi na MACD rosła stopniowo, ale nieznacznie przewyższała pasywną strategię inwestycyjną.
+
+\vspace{10cm} 
+\subsection{Symulacja S\&P 500 2019-2023}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{S&P 500 from 2019-05-01 COMBINED.pdf}
+    \caption{Symulacja z wykresami dla S\&P 2019-2023}
+    \label{fig:BTC_2014_2017}
+\end{figure}
+
+Podobnie jak w poprzednim okresie, strategia MACD pozwoliła na wzrost wartości portfela.
+W latach większej zmienności rynkowej (np. 2020 rok) MACD identyfikował dynamiczne ruchy cenowe, ale nie zawsze poprawnie przewidywał trendy.
+
+\vspace{10cm} 
+\subsection{Symulacja BTC 2014-2019}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{BTC from 2015-01-01 COMBINED.pdf}
+    \caption{Symulacja z wykresami dlaBTC 2015-2019}
+    \label{fig:BTC_2014_2017}
+\end{figure}
+Wykresy pokazują ogromne wahania wartości portfela, co potwierdza, że Bitcoin jest znacznie bardziej niestabilny niż S\&P 500.
+Wartość portfela opartego na MACD wahała się od kilku milionów do ponad 20 milionów dolarów, co sugeruje dużą ekspozycję na ryzyko.
+MACD generował wiele fałszywych sygnałów, co w krótkim terminie mogło prowadzić do nieoptymalnych decyzji inwestycyjnych.
+
+\subsection{Podsumowanie}
+MACD sprawdzał się lepiej dla indeksu S\&P 500 niż dla Bitcoina.
+W strategii inwestycyjnej opartej na MACD kluczowe jest filtrowanie sygnałów, aby unikać fałszywych transakcji, zwłaszcza na niestabilnych rynkach.
+Połączenie MACD z innymi wskaźnikami analizy technicznej mogłoby poprawić skuteczność prognoz.
+
+\vspace{2cm} 
+\section{Podsumowanie}
+\begin{itemize}
+    \item \textbf{Efektywność MACD} – Wskaźnik MACD jest skuteczny w analizie trendów dla indeksów giełdowych, takich jak S\&P 500.W przypadku kryptowalut, takich jak Bitcoin, jego skuteczność jest ograniczona przez wysoką zmienność rynku.
+    \item \textbf{Krótkoterminowe vs. długoterminowe podejście} – W krótkich interwałach czasowych MACD generuje wiele fałszywych sygnałów.W dłuższym terminie strategia MACD pozwalała osiągnąć lepsze wyniki niż pasywne trzymanie aktywów.
+    \item \textbf{Możliwości ulepszenia strategii} – Dodatkowe wskaźniki analizy technicznej mogą poprawić skuteczność transakcji.Strategie łączące MACD z analizą fundamentalną mogą zapewnić lepszą przewidywalność trendów rynkowych.
+\end{itemize}
+Wnioski sugerują, że MACD może być użyteczne jako element strategii inwestycyjnej, ale nie powinno być jedynym wskaźnikiem przy podejmowaniu decyzji inwestycyjnych.
 \end{document}
