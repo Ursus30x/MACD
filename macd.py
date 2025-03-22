@@ -8,8 +8,6 @@ SP500 = "sp500_index.csv"
 BTC = "BTC-Daily.csv"
 DATA_PATH_CSV = 'data/'
 
-
-
 def EMA(value_today: float, EMA_yesterday: float, n: int) -> float:
     alpha: float = 2/(n+1)
 
@@ -85,6 +83,25 @@ def simulateWallet(Dates: list, Values: list, Buys: list, Sells: list):
 
     return walletSim
 
+def transactionGains(Buys: list, Sells: list) -> list:
+    
+    gains = []
+        
+    BuysAndSells = Buys + Sells
+    lastTransactionValue = BuysAndSells[0][1]
+    
+        
+    for transaction in BuysAndSells:
+        gain = lastTransactionValue/transaction[1]
+        lastTransactionValue = transaction[1]
+        gains.append((transaction[0],gain))
+    
+        #print(gains)
+        
+    return gains
+            
+
+
 def createPlotValue(DATA, DATA_Title):
     fig, ax = plt.subplots(1, 1, sharex=True, figsize=(12, 6))  # Trzy wykresy
 
@@ -97,6 +114,26 @@ def createPlotValue(DATA, DATA_Title):
     ax.grid(True)
 
     plt.savefig(DATA_Title + " from " + str(DATA["Date"][0].strftime("%Y-%m-%d")) + " VALUE" + ".pdf",format="pdf")
+
+def createPlotGains(gains):
+    #dates = [x[0] for x in gains]  # Daty przecięć
+    gainsDiff = [x[1]-1 for x in gains]  # Daty przecięć
+    colors = ["green" if value > 0 else "red" for value in gainsDiff]
+
+
+    fig, ax = plt.subplots(1, 1, sharex=True, figsize=(12, 6))  # Trzy wykresy
+
+    # Wykres wartości 
+    ax.bar(range(0,len(gainsDiff)), gainsDiff, label=' Value', color=colors)
+    ax.set_xlabel('Date')
+    ax.set_ylabel('Value [$]')
+    ax.set_title(' Value')
+    ax.legend()
+    ax.grid(True)
+
+    # plt.savefig( + " from " + str(DATA["Date"][0].strftime("%Y-%m-%d")) + " VALUE" + ".pdf",format="pdf")
+
+
 
 def createPlotMACD(DATA, DATA_Title, macd, signal):
     fig, ax = plt.subplots(1, 1, sharex=True, figsize=(12, 6))  # Trzy wykresy
@@ -132,7 +169,6 @@ def createPlotBUYSELL(DATA, DATA_Title, buy_intersections, sell_intersections,):
 
     plt.savefig(DATA_Title + " from " + str(DATA["Date"][0].strftime("%Y-%m-%d")) + " BUYSELL" + ".pdf",format="pdf")
 
-
 def createPlotPortfolioSim(DATA, DATA_Title, walletSim):
     # Wykres stanu konta
     fig, ax = plt.subplots(1, 1, sharex=True, figsize=(12, 6))  # Trzy wykresy
@@ -155,8 +191,6 @@ def createPlotPortfolioSim(DATA, DATA_Title, walletSim):
 
     plt.savefig(DATA_Title + " from " + str(DATA["Date"][0].strftime("%Y-%m-%d")) + " SIMULATION" + ".pdf",format="pdf")
 
-
-
 def createCombinedPlots(DATA, DATA_Title, macd, signal, buy_intersections, sell_intersections, walletSim):
     buy_dates = [x[0] for x in buy_intersections] 
     buy_values = [x[1] for x in buy_intersections] 
@@ -170,10 +204,7 @@ def createCombinedPlots(DATA, DATA_Title, macd, signal, buy_intersections, sell_
     # Obliczanie procentowego wzrostu
     zarobione_procent = (walletSim_total[-1] / walletSim_total[0] - 1) * 100
     sytuacja_bez_macd_procent = (DATA["Value"].iloc[-1] / DATA["Value"].iloc[0] - 1) * 100
-
-    # Drukowanie wyników w formacie procentowym
-    print(f"Zarobione z macd: {zarobione_procent:.2f}% | Gdyby wrzucić bez MACD w 2014: {sytuacja_bez_macd_procent:.2f}%")
-
+    
     # Trzy wykresy w jednej fig. (2 wiersze, 2 kolumny, trzeci wykres na dole)
     fig, (ax1, ax2, ax3) = plt.subplots(3, 1, sharex=True, figsize=(12, 10))  # Trzy wykresy
 
@@ -211,7 +242,9 @@ def createCombinedPlots(DATA, DATA_Title, macd, signal, buy_intersections, sell_
     plt.tight_layout()  # Lepsze rozmieszczenie wykresów
 
     plt.savefig(DATA_Title + " from " + str(DATA["Date"][0].strftime("%Y-%m-%d")) + " COMBINED" + ".pdf",format="pdf")
-    
+
+# def createCloseUpAnalisysPlot(DATA, DATA_Title, macd, signal, buy_intersections, sell_intersections, walletSim):
+        
 
 def createAllPlots(DATA, DATA_Title, macd, signal, buy_intersections, sell_intersections, walletSim):
     createPlotValue(DATA, DATA_Title)
@@ -232,8 +265,9 @@ def generate_plot(Data_path, Data_title, time, time_offset):
     signal = SIGNAL(macd)
     buy_intersections,sell_intersections = calculateIntersections(DATA['Date'],macd,signal,DATA['Value'])
     walletSim = simulateWallet(DATA['Date'],DATA['Value'],buy_intersections,sell_intersections)
-
-    createAllPlots(DATA,Data_title,macd,signal,buy_intersections,sell_intersections,walletSim)
+    gains = transactionGains(buy_intersections,sell_intersections)
+    createPlotGains(gains)
+    #createAllPlots(DATA,Data_title,macd,signal,buy_intersections,sell_intersections,walletSim)
 
     
 
