@@ -115,8 +115,7 @@ def createPlotValue(DATA, DATA_Title):
 
     plt.savefig(DATA_Title + " from " + str(DATA["Date"][0].strftime("%Y-%m-%d")) + " VALUE" + ".pdf",format="pdf")
 
-def createPlotGains(gains):
-    #dates = [x[0] for x in gains]  # Daty przecięć
+def createPlotGains(DATA, DATA_Title, gains):
     gainsDiff = [x[1]-1 for x in gains]  # Daty przecięć
     colors = ["green" if value > 0 else "red" for value in gainsDiff]
 
@@ -125,15 +124,13 @@ def createPlotGains(gains):
 
     # Wykres wartości 
     ax.bar(range(0,len(gainsDiff)), gainsDiff, label=' Value', color=colors)
-    ax.set_xlabel('Date')
+    ax.set_xlabel('Transaction')
     ax.set_ylabel('Value [$]')
-    ax.set_title(' Value')
+    ax.set_title(DATA_Title +' Gains')
     ax.legend()
     ax.grid(True)
 
-    # plt.savefig( + " from " + str(DATA["Date"][0].strftime("%Y-%m-%d")) + " VALUE" + ".pdf",format="pdf")
-
-
+    plt.savefig(DATA_Title + " from " + str(DATA["Date"][0].strftime("%Y-%m-%d")) + " GAINS" + ".pdf",format="pdf")
 
 def createPlotMACD(DATA, DATA_Title, macd, signal):
     fig, ax = plt.subplots(1, 1, sharex=True, figsize=(12, 6))  # Trzy wykresy
@@ -163,7 +160,7 @@ def createPlotBUYSELL(DATA, DATA_Title, buy_intersections, sell_intersections,):
     ax.scatter(sell_dates, sell_values, label='SELL', color='r', zorder=5, marker='s')
     ax.set_xlabel('Date')
     ax.set_ylabel('Value [$]')
-    ax.set_title(DATA_Title + 'BUY & SELL Points')
+    ax.set_title(DATA_Title + ' BUY & SELL Points')
     ax.legend()
     ax.grid(True)
 
@@ -266,17 +263,19 @@ def generate_plot(Data_path, Data_title, time, time_offset):
     buy_intersections,sell_intersections = calculateIntersections(DATA['Date'],macd,signal,DATA['Value'])
     walletSim = simulateWallet(DATA['Date'],DATA['Value'],buy_intersections,sell_intersections)
     gains = transactionGains(buy_intersections,sell_intersections)
-    createPlotGains(gains)
-    #createAllPlots(DATA,Data_title,macd,signal,buy_intersections,sell_intersections,walletSim)
+    createPlotGains(DATA,Data_title,gains)
+    createAllPlots(DATA,Data_title,macd,signal,buy_intersections,sell_intersections,walletSim)
 
     
 
 
 
 def main():
-    generate_plot(DATA_PATH_CSV+SP500,"S&P 500",3*365,0)
-    generate_plot(DATA_PATH_CSV+SP500,"S&P 500",3*365,3*365)
-    generate_plot(DATA_PATH_CSV+BTC,"BTC",3*365,0)
+    #generate_plot(DATA_PATH_CSV+SP500,"S&P 500",3*365,0)
+    #generate_plot(DATA_PATH_CSV+SP500,"S&P 500",3*365,3*365)
+    #generate_plot(DATA_PATH_CSV+BTC,"BTC",3*365,0)
+    #generate_plot(DATA_PATH_CSV+BTC,"BTC SHORT PERIOD",120,100)
+    generate_plot(DATA_PATH_CSV+SP500,"S&P 500 SHORT PERIOD",90,100)
     
     plt.show()
 
