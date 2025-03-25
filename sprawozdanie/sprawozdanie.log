@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025/Arch Linux) (preloaded format=pdflatex 2025.3.22)  22 MAR 2025 21:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2026/dev/Arch Linux) (preloaded format=pdflatex 2025.3.24)  25 MAR 2025 21:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -257,11 +257,6 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 [7 <./S&P 500 from 2019-05-01 BUYSELL.pdf> <./S&P 500 from 2019-05-01 MACD.pdf>]
-Overfull \hbox (10.21465pt too wide) in paragraph at lines 143--144
-\T1/cmr/m/n/12 na rynku S&P 500, cho-ciaz przy duzych zmi-anach na rynku spraw-ial powodowal
- []
-
-
 
 [8 <./BTC from 2015-01-01 BUYSELL.pdf> <./BTC from 2015-01-01 MACD.pdf>]
 <S&P 500 SHORT PERIOD from 2015-05-18 BUYSELL.pdf, id=365, 867.24pt x 433.62pt>
@@ -302,7 +297,7 @@ Overfull \hbox (15.38068pt too wide) in paragraph at lines 175--176
 <S&P 500 from 2015-01-02 COMBINED.pdf, id=459, 867.24pt x 722.7pt>
 File: S&P 500 from 2015-01-02 COMBINED.pdf Graphic file (type pdf)
 <use S&P 500 from 2015-01-02 COMBINED.pdf>
-Package pdftex.def Info: S&P 500 from 2015-01-02 COMBINED.pdf  used on input line 186.
+Package pdftex.def Info: S&P 500 from 2015-01-02 COMBINED.pdf  used on input line 185.
 (pdftex.def)             Requested size: 390.0pt x 325.00247pt.
 
 
@@ -311,42 +306,24 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 [11 <./BTC SHORT PERIOD from 2015-03-08 BUYSELL.pdf> <./BTC SHORT PERIOD from 2015-03-08 GAINS.pdf>]
-<S&P 500 from 2019-05-01 COMBINED.pdf, id=553, 867.24pt x 722.7pt>
+
+[12 <./S&P 500 from 2015-01-02 COMBINED.pdf>]
+<S&P 500 from 2019-05-01 COMBINED.pdf, id=617, 867.24pt x 722.7pt>
 File: S&P 500 from 2019-05-01 COMBINED.pdf Graphic file (type pdf)
 <use S&P 500 from 2019-05-01 COMBINED.pdf>
 Package pdftex.def Info: S&P 500 from 2019-05-01 COMBINED.pdf  used on input line 197.
 (pdftex.def)             Requested size: 390.0pt x 325.00247pt.
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-
-[12 <./S&P 500 from 2015-01-02 COMBINED.pdf>]
-<BTC from 2015-01-01 COMBINED.pdf, id=618, 867.24pt x 722.7pt>
+[13 <./S&P 500 from 2019-05-01 COMBINED.pdf>]
+<BTC from 2015-01-01 COMBINED.pdf, id=682, 867.24pt x 722.7pt>
 File: BTC from 2015-01-01 COMBINED.pdf Graphic file (type pdf)
 <use BTC from 2015-01-01 COMBINED.pdf>
-Package pdftex.def Info: BTC from 2015-01-01 COMBINED.pdf  used on input line 209.
+Package pdftex.def Info: BTC from 2015-01-01 COMBINED.pdf  used on input line 207.
 (pdftex.def)             Requested size: 390.0pt x 325.00247pt.
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-
-[13 <./S&P 500 from 2019-05-01 COMBINED.pdf>]
-
 [14 <./BTC from 2015-01-01 COMBINED.pdf>]
-Overfull \hbox (17.62177pt too wide) in paragraph at lines 227--228
-\T1/cmr/m/n/12 tech-nicznej mog¡ poprawi¢ skuteczno±¢ transakcji.Strategie ª¡cz¡ce MACD
- []
-
-
-Overfull \hbox (6.92929pt too wide) in paragraph at lines 227--228
-\T1/cmr/m/n/12 z anal-iz¡ fun-da-men-taln¡ mog¡ za-pewni¢ lep-sz¡ przewidy-wal-no±¢ trendów
- []
-
-
 
 [15] (./sprawozdanie.aux)
  ***********
@@ -360,16 +337,16 @@ LaTeX Warning: There were multiply-defined labels.
  ) 
 Here is how much of TeX's memory you used:
  2360 strings out of 475171
- 37243 string characters out of 5767103
+ 37251 string characters out of 5767095
  421428 words of memory out of 5000000
  25366 multiletter control sequences out of 15000+600000
  570032 words of font info for 62 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 57i,6n,65p,617b,238s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,6n,65p,640b,238s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </home/ursus/.texlive/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/ursus/.texlive/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/ursus/.texlive/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1200.600pk> </home/ursus/.texlive/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1200.600pk> </home/ursus/.texlive/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </home/ursus/.texlive/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1728.600pk> </home/ursus/.texlive/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1440.600pk> </home/ursus/.texlive/texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm2074.600pk></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on sprawozdanie.pdf (15 pages, 558482 bytes).
+Output written on sprawozdanie.pdf (15 pages, 561086 bytes).
 PDF statistics:
- 1054 PDF objects out of 1200 (max. 8388607)
+ 1061 PDF objects out of 1200 (max. 8388607)
  165 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  81 words of extra memory for PDF output out of 10000 (max. 10000000)
